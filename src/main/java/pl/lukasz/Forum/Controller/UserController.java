@@ -2,6 +2,7 @@ package pl.lukasz.Forum.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.lukasz.Forum.Model.User;
@@ -12,9 +13,12 @@ import javax.validation.Valid;
 @Controller
 public class UserController {
 
-   @Autowired
-    private UserRepo userRepository;
+   private final UserRepo userRepository;
 
+    @Autowired
+    public UserController(UserRepo userRepository) {
+        this.userRepository = userRepository;
+    }
 
 
     @PostMapping("/user/add")
@@ -34,18 +38,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public  String login(@ModelAttribute User user){
+    public  String login(@ModelAttribute User user, Model model){
         String email = user.getEmail();
         User db =userRepository.findByEmail(email);
-        if(user==null){
-           System.out.println("użytkownik to null!!!");
+        if(db==null){
            return "redirect:/login?error=true";
+
        }
        if(user.getPassword().equals(db.getPassword())){
-           return "redirect:/";
+            return "redirect:/";
        }
         else{
-            return "redirect:/login";
+            return "redirect:/login?error=true";
         }
     }
 
