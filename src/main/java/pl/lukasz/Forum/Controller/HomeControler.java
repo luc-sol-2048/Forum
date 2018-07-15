@@ -28,7 +28,7 @@ public class HomeControler {
     private ArticleRepo articleRepo;
     @GetMapping("/")
     public String all(Model model) {
-        List<Article> list = new ArrayList<Article>();
+        List<Article> list = new ArrayList<>();
         for (Article a:articleRepo.findAll()
              ) {list.add(a);
 
@@ -61,7 +61,8 @@ public class HomeControler {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login(Model model){
+        model.addAttribute("user",new User());
         return "login";
     }
 
