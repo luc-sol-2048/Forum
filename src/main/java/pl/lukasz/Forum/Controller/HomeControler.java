@@ -65,6 +65,11 @@ public class HomeControler {
         model.addAttribute("user",new User());
         return "login";
     }
+    @RequestMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "login";
+    }
 
     @GetMapping("/about")
     public String about(){
